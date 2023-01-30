@@ -1,6 +1,6 @@
 const isDev = process.env.NODE_ENV === 'development'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const prettierConfig = require('./.prettier.config.js')
+const prettierConfig = require('./.prettier.config.cjs')
 module.exports = {
   root: true,
 
@@ -47,7 +47,7 @@ module.exports = {
     'prettier/prettier': [
       isDev ? 'warn' : 'error',
       {
-        parser: 'flow',
+        parser: 'typescript',
         ...prettierConfig,
       },
       {
@@ -87,7 +87,7 @@ module.exports = {
       {
         arrays: 'only-multiline',
         objects: 'always-multiline',
-        imports: 'never',
+        imports: 'only-multiline',
         exports: 'never',
         functions: 'never',
       },
@@ -267,7 +267,7 @@ module.exports = {
     // 禁用 __proto__ 属性
     'no-proto': 2,
     // 禁止使用 var 多次声明同一变量
-    'no-redeclare': 2,
+    'no-redeclare': 0,
     // 不允许在return语句中使用分配语句
     'no-return-assign': 2,
     // 禁止使用 javascript: url
@@ -349,7 +349,7 @@ module.exports = {
     'no-undefined': 0,
     // 禁止出现未使用过的变量
     'no-unused-vars': [
-      2,
+      0,
       {
         vars: 'all',
         args: 'after-used',
@@ -580,8 +580,6 @@ module.exports = {
     'no-constructor-return': 1,
     // 不允许不必要的`catch'子句
     'no-useless-catch': 1,
-    // 不允许分配到导入的绑定
-    'no-import-assign': 1,
     // 禁止多余的 return 语句
     'no-useless-return': 1,
     // 强制操作符使用一致的换行符
@@ -709,5 +707,7 @@ module.exports = {
     'template-curly-spacing': 1,
     // 强制在 yield* 表达式中 * 周围使用空格
     'yield-star-spacing': 2,
+    // 禁用require导入
+    '@typescript-eslint/no-var-requires': 1,
   },
 }
