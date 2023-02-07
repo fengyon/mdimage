@@ -1,7 +1,7 @@
 import { lstatSync } from 'fs'
-const path = require('path')
-import { DirectoryInfo, DirectoryStats, FileInfo, FileStats, ReadHooks, ReadResult } from '../types/read-dir-deep'
-import { readdirAsync, readFileAsync } from './file-async'
+import path from 'path'
+import { DirectoryInfo, DirectoryStats, FileInfo, FileStats, ReadHooks, ReadResult } from '../../types/read-dir-deep'
+import { readdirAsync, readFileAsync } from '../file-async'
 export const sepReg = /[\\\/]/g
 export const getSysPath = (somepath: string): string => somepath.replace(sepReg, path.sep)
 export const getRelativePath = (absolutePath: string, basePath: string): string =>
