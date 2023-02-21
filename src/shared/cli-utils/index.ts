@@ -2,6 +2,8 @@ import chalk from 'chalk'
 import ora from 'ora'
 import { getStrLength } from '../index'
 import { COLUMN_SEP, ROW_SEP } from './const'
+import inquirer from 'inquirer'
+
 export const wrapLoading = <T extends (...args: any[]) => any>(fn: T): T => {
   return function wrapedLoading(...args) {
     const loadingInstance = ora({
@@ -18,8 +20,15 @@ export const wrapLoading = <T extends (...args: any[]) => any>(fn: T): T => {
 }
 
 export const loadingPromise = <T extends Promise<any>>(promise: T): T => wrapLoading(() => promise)()
-export const dealValue = (value: string, defaultValue = '<空值>') =>
-  typeof value === 'string' ? (value ? chalk.green(value) : chalk.gray(defaultValue)) : value
+
+/**
+ * 处理字段的值，有值时展示绿色，无值展示灰色
+ * @param value 字段值
+ * @param emptyValue 空值展示的字符串，默认为 <空值>
+ * @returns 加上颜色，空值的字符串
+ */
+export const dealValue = (value: string, emptyValue = '<空值>') =>
+  typeof value === 'string' ? (value ? chalk.green(value) : chalk.gray(emptyValue)) : value
 
 // 格式化文字，用于输出对齐
 export const formatStr = (str: string): string => {
@@ -64,4 +73,13 @@ export const formatStrByArr = (array: string[][], options?: FormatOption) => {
       line.map((row, rowIndex) => `${row}${ROW_SEP.repeat(maxLengths[rowIndex] - getStrLength(row))}`).join(rowSep)
     )
     .join(columnSep)
+}
+
+export const commandConfirm = async (message: string): Promise<boolean> => {
+  const { isConfirm } = await inquirer.prompt({
+    message,
+    type: 'confirm',
+    name: 'isConfirm',
+  })
+  return Boolean(isConfirm)
 }
